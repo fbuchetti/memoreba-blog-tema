@@ -4,6 +4,8 @@
   "settings": {
     "color": {
       "defaultPalette": false,
+      "defaultGradients": false,
+      "defaultDuotone": false,
       "palette": [
         {
           "slug": "base",
@@ -84,6 +86,34 @@
       "h2": {
         "color": {
           "text": "var(--wp--preset--color--accent-4)"
+        }
+      }
+    },
+    "blocks": {
+      "core/post-title": {
+        "color": {
+          "text": "var(--wp--preset--color--accent-4)"
+        },
+        "elements": {
+          "link": {
+            "color": {
+              "text": "var(--wp--preset--color--accent-4)"
+            },
+            ":hover": {
+              "color": {
+                "text": "var(--wp--preset--color--accent-1)"
+              }
+            }
+          }
+        }
+      },
+      "core/site-title": {
+        "elements": {
+          "link": {
+            "color": {
+              "text": "var(--wp--preset--color--accent-4)"
+            }
+          }
         }
       }
     }
