@@ -14,6 +14,8 @@ deployment:
     - /bin/cp -f theme.json $DESTINO/theme.json
     - /bin/cp -f functions.php $DESTINO/functions.php
     - /bin/cp -f screenshot.png $DESTINO/screenshot.png
+    - /bin/rm -rf $DESTINO/assets
+    - /bin/cp -Rf assets $DESTINO/assets
     - /bin/rm -rf $DESTINO/templates $DESTINO/parts $DESTINO/patterns
     - /bin/cp -Rf templates $DESTINO/templates 2>/dev/null || true
     - /bin/cp -Rf parts $DESTINO/parts 2>/dev/null || true

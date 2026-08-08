@@ -19,3 +19,33 @@ Text Domain: memoreba-blog
  * theme.json. Estilo escrito à mão não aparece no Editor de Site e, por isso,
  * é invisível para quem edita o blog pelo painel.
  */
+
+/* ── Logotipo no cabeçalho ──────────────────────────────────────────────────
+ *
+ * O logotipo entra pelo tema, não pela biblioteca de mídia: assim ele é
+ * versionado junto com o código e sobe pelo mesmo deploy. O WordPress bloqueia
+ * envio de SVG por padrão (é um formato que pode carregar script), e aqui o
+ * arquivo vem do próprio tema — não passa por upload.
+ *
+ * O texto "De Cabeça!" continua no HTML e some só visualmente: leitor de tela
+ * e mecanismo de busca seguem lendo o nome do site.
+ */
+.wp-block-site-title a {
+	display: block;
+	width: 200px;
+	max-width: 60vw;
+	/* 1399.24 x 313.6 no arquivo original — proporção preservada. */
+	aspect-ratio: 1399.24 / 313.6;
+	background-image: url("assets/de-cabeca.svg");
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: contain;
+	overflow: hidden;
+	white-space: nowrap;
+	text-indent: -9999px;
+}
+
+/* Navegador sem suporte a SVG cai no PNG. */
+.no-svg .wp-block-site-title a {
+	background-image: url("assets/de-cabeca.png");
+}
