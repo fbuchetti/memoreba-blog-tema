@@ -1,0 +1,21 @@
+/*
+Theme Name: Memoreba Blog
+Theme URI: https://blog.memoreba.com.br/
+Description: Tema-filho do Twenty Twenty-Five com a identidade visual do Memoreba. A paleta e a tipografia vivem em theme.json; este arquivo guarda apenas os ajustes que os blocos não cobrem.
+Author: Memoreba
+Author URI: https://memoreba.com.br/
+Template: twentytwentyfive
+Version: 0.1.0
+Requires at least: 6.7
+Tested up to: 7.0
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: memoreba-blog
+*/
+
+/*
+ * Regra de ouro deste arquivo: só entra aqui o que NÃO dá para expressar em
+ * theme.json. Estilo escrito à mão não aparece no Editor de Site e, por isso,
+ * é invisível para quem edita o blog pelo painel.
+ */

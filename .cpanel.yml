@@ -1,0 +1,19 @@
+---
+# Implantação do tema-filho no WordPress de blog.memoreba.com.br
+#
+# O cPanel executa estas tarefas quando você clica em "Deploy HEAD Commit".
+# Caminhos precisam ser absolutos — o cPanel não expande atalhos como ~ .
+#
+# Destino: raiz do documento /public_html (blog.memoreba.com.br é o domínio
+# principal desta conta), dentro da pasta de temas do WordPress.
+deployment:
+  tasks:
+    - export DESTINO=/home2/fabi9322/public_html/wp-content/themes/memoreba
+    - /bin/mkdir -p $DESTINO
+    - /bin/cp -f style.css $DESTINO/style.css
+    - /bin/cp -f theme.json $DESTINO/theme.json
+    - /bin/cp -f functions.php $DESTINO/functions.php
+    - /bin/rm -rf $DESTINO/templates $DESTINO/parts $DESTINO/patterns
+    - /bin/cp -Rf templates $DESTINO/templates 2>/dev/null || true
+    - /bin/cp -Rf parts $DESTINO/parts 2>/dev/null || true
+    - /bin/cp -Rf patterns $DESTINO/patterns 2>/dev/null || true

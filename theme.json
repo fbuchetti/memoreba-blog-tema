@@ -1,0 +1,91 @@
+{
+  "$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+  "version": 3,
+  "settings": {
+    "color": {
+      "defaultPalette": false,
+      "palette": [
+        {
+          "slug": "base",
+          "color": "#FBFBFB",
+          "name": "Fundo claro"
+        },
+        {
+          "slug": "contrast",
+          "color": "#332C2C",
+          "name": "Texto"
+        },
+        {
+          "slug": "accent-1",
+          "color": "#D26743",
+          "name": "Terracota"
+        },
+        {
+          "slug": "accent-2",
+          "color": "#9E4D32",
+          "name": "Terracota escuro"
+        },
+        {
+          "slug": "accent-3",
+          "color": "#6C3F78",
+          "name": "Roxo da marca"
+        },
+        {
+          "slug": "accent-4",
+          "color": "#412648",
+          "name": "Roxo profundo"
+        },
+        {
+          "slug": "accent-5",
+          "color": "#5C5C5C",
+          "name": "Cinza texto"
+        },
+        {
+          "slug": "accent-6",
+          "color": "#E7E7E7",
+          "name": "Cinza borda"
+        }
+      ]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var(--wp--preset--color--base)",
+      "text": "var(--wp--preset--color--contrast)"
+    },
+    "elements": {
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--accent-1)"
+        },
+        ":hover": {
+          "color": {
+            "text": "var(--wp--preset--color--accent-2)"
+          }
+        }
+      },
+      "button": {
+        "color": {
+          "background": "var(--wp--preset--color--accent-1)",
+          "text": "var(--wp--preset--color--base)"
+        },
+        ":hover": {
+          "color": {
+            "background": "var(--wp--preset--color--accent-2)",
+            "text": "var(--wp--preset--color--base)"
+          }
+        }
+      },
+      "h1": {
+        "color": {
+          "text": "var(--wp--preset--color--accent-4)"
+        }
+      },
+      "h2": {
+        "color": {
+          "text": "var(--wp--preset--color--accent-4)"
+        }
+      }
+    }
+  }
+}
