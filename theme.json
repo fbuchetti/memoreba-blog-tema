@@ -9,43 +9,53 @@
       "palette": [
         {
           "slug": "base",
-          "color": "#FBFBFB",
-          "name": "Fundo claro"
+          "color": "#FFFFFF",
+          "name": "Branco"
         },
         {
           "slug": "contrast",
-          "color": "#332C2C",
-          "name": "Texto"
+          "color": "#232B2B",
+          "name": "Grafite"
         },
         {
-          "slug": "accent-1",
-          "color": "#D26743",
-          "name": "Terracota"
+          "slug": "contrast-2",
+          "color": "#6B7272",
+          "name": "Grafite claro"
         },
         {
-          "slug": "accent-2",
-          "color": "#9E4D32",
-          "name": "Terracota escuro"
+          "slug": "contrast-3",
+          "color": "#E6E8E8",
+          "name": "Linha"
         },
         {
-          "slug": "accent-3",
-          "color": "#6C3F78",
-          "name": "Roxo da marca"
+          "slug": "metodo",
+          "color": "#20A8E0",
+          "name": "Método (ciano)"
         },
         {
-          "slug": "accent-4",
-          "color": "#412648",
-          "name": "Roxo profundo"
+          "slug": "memoria",
+          "color": "#844890",
+          "name": "Memória (roxo)"
         },
         {
-          "slug": "accent-5",
-          "color": "#5C5C5C",
-          "name": "Cinza texto"
+          "slug": "edital",
+          "color": "#E46C30",
+          "name": "Edital (laranja)"
         },
         {
-          "slug": "accent-6",
-          "color": "#E7E7E7",
-          "name": "Cinza borda"
+          "slug": "rotina",
+          "color": "#009C9C",
+          "name": "Rotina (teal)"
+        },
+        {
+          "slug": "bastidores",
+          "color": "#FCB418",
+          "name": "Bastidores (amarelo)"
+        },
+        {
+          "slug": "especial",
+          "color": "#E41860",
+          "name": "Série especial (magenta)"
         }
       ]
     }
@@ -58,62 +68,89 @@
     "elements": {
       "link": {
         "color": {
-          "text": "var(--wp--preset--color--accent-1)"
+          "text": "var(--wp--preset--color--metodo)"
         },
         ":hover": {
           "color": {
-            "text": "var(--wp--preset--color--accent-2)"
+            "text": "var(--wp--preset--color--contrast)"
           }
         }
       },
       "button": {
         "color": {
-          "background": "var(--wp--preset--color--accent-1)",
+          "background": "var(--wp--preset--color--contrast)",
           "text": "var(--wp--preset--color--base)"
         },
         ":hover": {
           "color": {
-            "background": "var(--wp--preset--color--accent-2)",
+            "background": "var(--wp--preset--color--metodo)",
             "text": "var(--wp--preset--color--base)"
           }
         }
       },
       "h1": {
         "color": {
-          "text": "var(--wp--preset--color--accent-4)"
+          "text": "var(--wp--preset--color--contrast)"
         }
       },
       "h2": {
         "color": {
-          "text": "var(--wp--preset--color--accent-4)"
+          "text": "var(--wp--preset--color--contrast)"
+        }
+      },
+      "h3": {
+        "color": {
+          "text": "var(--wp--preset--color--contrast)"
         }
       }
     },
     "blocks": {
-      "core/post-title": {
-        "color": {
-          "text": "var(--wp--preset--color--accent-4)"
-        },
+      "core/site-title": {
         "elements": {
           "link": {
             "color": {
-              "text": "var(--wp--preset--color--accent-4)"
+              "text": "var(--wp--preset--color--contrast)"
             },
             ":hover": {
               "color": {
-                "text": "var(--wp--preset--color--accent-1)"
+                "text": "var(--wp--preset--color--contrast)"
               }
             }
           }
         }
       },
-      "core/site-title": {
+      "core/post-title": {
+        "color": {
+          "text": "var(--wp--preset--color--contrast)"
+        },
         "elements": {
           "link": {
             "color": {
-              "text": "var(--wp--preset--color--accent-4)"
+              "text": "var(--wp--preset--color--contrast)"
+            },
+            ":hover": {
+              "color": {
+                "text": "var(--wp--preset--color--metodo)"
+              }
             }
           }
+        }
+      },
+      "core/post-date": {
+        "color": {
+          "text": "var(--wp--preset--color--contrast-2)"
+        },
+        "elements": {
+          "link": {
+            "color": {
+              "text": "var(--wp--preset--color--contrast-2)"
+            }
+          }
+        }
+      },
+      "core/separator": {
+        "color": {
+          "text": "var(--wp--preset--color--contrast-3)"
         }
       }
     }

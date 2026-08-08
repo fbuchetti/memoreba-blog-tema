@@ -14,22 +14,40 @@ import { writeFileSync } from 'node:fs';
 const LARGURA = 1200;
 const ALTURA = 900;
 
+// Identidade do blog "De Cabeça!": base grafite e branco, cor só nas editorias.
 const CORES = {
-	fundo: [0xfb, 0xfb, 0xfb],
-	terracota: [0xd2, 0x67, 0x43],
-	roxo: [0x41, 0x26, 0x48],
-	texto: [0x33, 0x2c, 0x2c],
+	fundo: [0xff, 0xff, 0xff],
+	grafite: [0x23, 0x2b, 0x2b],
+	claro: [0x6b, 0x72, 0x72],
+	linha: [0xe6, 0xe8, 0xe8],
+	editorias: [
+		[0x20, 0xa8, 0xe0], // Método
+		[0x84, 0x48, 0x90], // Memória
+		[0xe4, 0x6c, 0x30], // Edital
+		[0x00, 0x9c, 0x9c], // Rotina
+		[0xfc, 0xb4, 0x18], // Bastidores
+	],
 };
 
-/** Retorna a cor do pixel — faixas horizontais com a paleta da marca. */
+/** Retorna a cor do pixel — grafite no topo, e a régua de editorias no rodapé. */
 function corDoPixel(x, y) {
-	if (y < 120) return CORES.roxo;
-	if (y > ALTURA - 60) return CORES.terracota;
-	// Bloco de "título" e "linhas de texto" sugeridos geometricamente.
-	if (y > 260 && y < 320 && x > 140 && x < 660) return CORES.terracota;
-	if (y > 380 && y < 400 && x > 140 && x < 900) return CORES.texto;
-	if (y > 430 && y < 450 && x > 140 && x < 820) return CORES.texto;
-	if (y > 480 && y < 500 && x > 140 && x < 620) return CORES.texto;
+	if (y < 120) return CORES.grafite;
+
+	// Rodapé: as cinco editorias em faixas iguais, que é o sistema da marca.
+	if (y > ALTURA - 60) {
+		const faixa = Math.min(
+			CORES.editorias.length - 1,
+			Math.floor((x / LARGURA) * CORES.editorias.length)
+		);
+		return CORES.editorias[faixa];
+	}
+
+	// Título em grafite e linhas de texto sugeridas geometricamente.
+	if (y > 260 && y < 320 && x > 140 && x < 660) return CORES.grafite;
+	if (y > 350 && y < 352 && x > 140 && x < 1060) return CORES.linha;
+	if (y > 400 && y < 418 && x > 140 && x < 900) return CORES.claro;
+	if (y > 448 && y < 466 && x > 140 && x < 820) return CORES.claro;
+	if (y > 496 && y < 514 && x > 140 && x < 620) return CORES.claro;
 	return CORES.fundo;
 }
 

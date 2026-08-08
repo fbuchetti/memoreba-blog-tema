@@ -19,20 +19,40 @@ sobrevive às atualizações e herda tudo o que não for redefinido aqui.
 | `templates/`, `parts/` | Criados sob demanda; um arquivo de mesmo nome sobrescreve o do pai |
 | `.cpanel.yml` | Diz ao cPanel quais arquivos copiar e para onde |
 
-## Paleta
+## Paleta — identidade do blog, não a do produto
 
-Espelha `packages/ui/src/styles/tokens.css` do monorepo:
+O blog tem marca própria. A paleta vem de
+`docs/08-produto/marca-blog/descricao-blog.md` no monorepo, **não** dos tokens
+do produto (`packages/ui/src/styles/tokens.css`). Decisão do dono em 08/08/2026:
+o blog veste "De Cabeça!", o Memoreba mantém terracota e roxo.
+
+**Base neutra** — é ela que deixa a cor da editoria significar alguma coisa:
 
 | Uso | Cor |
 |---|---|
-| Terracota (marca) | `#D26743` |
-| Terracota escuro | `#9E4D32` |
-| Roxo da marca | `#6C3F78` |
-| Roxo profundo | `#412648` |
-| Texto | `#332C2C` |
-| Fundo | `#FBFBFB` |
+| Fundo | `#FFFFFF` |
+| Grafite (texto e títulos) | `#232B2B` |
+| Grafite claro (datas, apoio) | `#6B7272` |
+| Linha | `#E6E8E8` |
 
-Mudou a paleta do produto? Atualize aqui também — não há sincronização automática.
+**Cor por editoria** — a engrenagem do logotipo troca de cor conforme a pauta:
+
+| Editoria | Cor |
+|---|---|
+| Método | `#20A8E0` |
+| Memória | `#844890` |
+| Edital | `#E46C30` |
+| Rotina | `#009C9C` |
+| Bastidores | `#FCB418` |
+| Série especial (reservada) | `#E41860` |
+
+Regra que sustenta o sistema: **o corpo da página fica neutro**. Se o layout
+começar a receber cor de fundo em bloco, a sinalização por editoria se perde.
+O ciano de Método é o padrão de link por ser a cor da engrenagem no logotipo
+principal.
+
+Os cinzas `#6B7272` e `#E6E8E8` são derivados do grafite, não constam do
+documento de marca — se a marca fixar valores próprios, troque aqui.
 
 ## Como publicar uma mudança
 
