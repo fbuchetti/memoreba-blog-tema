@@ -1,0 +1,50 @@
+<!--
+  Página de capítulo do Guia.
+
+  Difere do template padrão de página em uma coisa só: a coluna da esquerda,
+  que mostra os catorze capítulos o tempo todo. No Guia original essa navegação
+  é fixa na lateral; sem ela, o leitor do blog precisa rolar até o rodapé para
+  descobrir qual é o próximo capítulo.
+
+  A lista é montada pelo próprio WordPress a partir da hierarquia de páginas
+  (parentPageID 25 = "Guia do Memoreba"). Não há lista escrita à mão: página
+  nova aparece aqui sozinha, e página removida some.
+
+  As partes de cabeçalho e rodapé vêm do tema-pai (Twenty Twenty-Five); este
+  tema-filho não redefine nenhuma delas.
+-->
+<!-- wp:template-part {"slug":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"margin":{"top":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group" style="margin-top:var(--wp--preset--spacing--60)">
+	<!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignwide" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+		<!-- wp:columns {"align":"wide","className":"guia-colunas"} -->
+		<div class="wp-block-columns alignwide guia-colunas">
+			<!-- wp:column {"width":"26%","className":"guia-lateral"} -->
+			<div class="wp-block-column guia-lateral" style="flex-basis:26%">
+				<!-- wp:paragraph {"className":"guia-lateral__rotulo"} -->
+				<p class="guia-lateral__rotulo"><a href="/guia/">Neste guia</a></p>
+				<!-- /wp:paragraph -->
+
+				<!-- wp:page-list {"parentPageID":25,"className":"guia-lateral__lista"} /-->
+			</div>
+			<!-- /wp:column -->
+
+			<!-- wp:column {"width":"74%"} -->
+			<div class="wp-block-column" style="flex-basis:74%">
+				<!-- wp:post-featured-image {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}}} /-->
+
+				<!-- wp:post-title {"level":1} /-->
+
+				<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+			</div>
+			<!-- /wp:column -->
+		</div>
+		<!-- /wp:columns -->
+	</div>
+	<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer"} /-->

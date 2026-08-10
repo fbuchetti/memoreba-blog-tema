@@ -60,6 +60,13 @@
       ]
     }
   },
+  "customTemplates": [
+    {
+      "name": "pagina-guia",
+      "title": "Página do Guia (com navegação lateral)",
+      "postTypes": ["page"]
+    }
+  ],
   "styles": {
     "color": {
       "background": "var(--wp--preset--color--base)",
