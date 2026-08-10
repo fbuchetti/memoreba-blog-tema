@@ -1,11 +1,11 @@
 /*
 Theme Name: Memoreba Blog
 Theme URI: https://blog.memoreba.com.br/
-Description: Tema-filho do Twenty Twenty-Five com a identidade do blog "De Cabeça!" — base grafite e branco, cor entrando só pela editoria. A paleta vive em theme.json; este arquivo guarda apenas os ajustes que os blocos não cobrem.
+Description: Tema-filho do Twenty Twenty-Five com o design system do produto Memoreba — base creme, tipografia Outfit + Literata e os componentes editoriais do Guia. Os tokens vivem em theme.json; este arquivo guarda apenas os componentes que os blocos não cobrem.
 Author: Memoreba
 Author URI: https://memoreba.com.br/
 Template: twentytwentyfive
-Version: 0.2.0
+Version: 0.3.0
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.4
@@ -18,25 +18,46 @@ Text Domain: memoreba-blog
  * Regra de ouro deste arquivo: só entra aqui o que NÃO dá para expressar em
  * theme.json. Estilo escrito à mão não aparece no Editor de Site e, por isso,
  * é invisível para quem edita o blog pelo painel.
+ *
+ * A fonte destes valores é o design system do produto, versionado em
+ * docs/08-produto/curso-sobre-o-memoreba/guia/assets/css/ no repositório do
+ * Memoreba (tokens.css, leitura.css, componentes.css). Quando um valor aqui
+ * divergir de lá, lá está certo.
  */
 
-/* ── Logotipo no cabeçalho ──────────────────────────────────────────────────
+:root {
+	/* Tokens que o theme.json não expõe: sombras, raios e transição. */
+	--memoreba-raio-sm: 0.5rem;
+	--memoreba-raio-md: 0.875rem;
+	--memoreba-raio-lg: 1.25rem;
+	--memoreba-sombra-sm: 0 1px 2px rgb(35 60 80 / 0.06);
+	--memoreba-sombra-md: 0 16px 38px rgb(35 60 80 / 0.1);
+	--memoreba-transicao: 180ms ease;
+
+	/* Fundos claros das caixas — pares dos tons de estado da paleta. */
+	--memoreba-evidencia-fundo: #e5f3f1;
+	--memoreba-atencao-fundo: #fbf1d7;
+	--memoreba-pratica-fundo: #e8f4ee;
+	--memoreba-ideia-fundo: #f6f2e8;
+	--memoreba-pilula: #eee9db;
+}
+
+/* ── Marca no cabeçalho ─────────────────────────────────────────────────────
  *
- * O logotipo entra pelo tema, não pela biblioteca de mídia: assim ele é
- * versionado junto com o código e sobe pelo mesmo deploy. O WordPress bloqueia
- * envio de SVG por padrão (é um formato que pode carregar script), e aqui o
- * arquivo vem do próprio tema — não passa por upload.
+ * O blog assina como Memoreba: mascote + palavra, igual ao cabeçalho do Guia.
+ * A imagem entra pelo tema (versionada, sobe no mesmo deploy) e substitui
+ * visualmente o texto do título do site — que continua no HTML para leitor de
+ * tela e mecanismo de busca.
  *
- * O texto "De Cabeça!" continua no HTML e some só visualmente: leitor de tela
- * e mecanismo de busca seguem lendo o nome do site.
+ * O arquivo não tem canal alfa: o fundo dele é o mesmo creme do cabeçalho.
  */
 .wp-block-site-title a {
 	display: block;
-	width: 200px;
-	max-width: 60vw;
-	/* 1399.24 x 313.6 no arquivo original — proporção preservada. */
-	aspect-ratio: 1399.24 / 313.6;
-	background-image: url("assets/de-cabeca.svg");
+	width: 172px;
+	max-width: 55vw;
+	/* 402 x 102 no arquivo — proporção preservada. */
+	aspect-ratio: 402 / 102;
+	background-image: url("assets/memoreba-lockup.png");
 	background-repeat: no-repeat;
 	background-position: left center;
 	background-size: contain;
@@ -45,26 +66,291 @@ Text Domain: memoreba-blog
 	text-indent: -9999px;
 }
 
-/* Navegador sem suporte a SVG cai no PNG. */
-.no-svg .wp-block-site-title a {
-	background-image: url("assets/de-cabeca.png");
+/* ── Cabeçalho do site ──────────────────────────────────────────────────────
+ * Fica colado no topo, como no Guia, com um fio discreto para separar da
+ * leitura. O desfoque só entra onde o navegador suporta.
+ */
+.wp-site-blocks > header {
+	position: sticky;
+	top: 0;
+	z-index: 40;
+	border-bottom: 1px solid rgb(222 215 200 / 0.78);
+	background: rgb(250 247 240 / 0.94);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+	.wp-site-blocks > header {
+		backdrop-filter: blur(0.8rem);
+	}
+}
+
+/* ── Leitura ────────────────────────────────────────────────────────────────*/
+
+::selection {
+	background: rgb(124 196 186 / 0.42);
+	color: #182b3a;
+}
+
+body {
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+}
+
+.entry-content p {
+	text-wrap: pretty;
+}
+
+.entry-content :where(h1, h2, h3, h4) {
+	text-wrap: balance;
+}
+
+.entry-content strong {
+	color: var(--wp--preset--color--contrast);
+	font-weight: 600;
+}
+
+/* O marcador de lista é sinal de ritmo: entra na cor da marca. */
+.entry-content li::marker {
+	color: var(--wp--preset--color--laranja);
+	font-family: var(--wp--preset--font-family--display);
+	font-weight: 700;
+}
+
+.entry-content a {
+	text-decoration-color: rgb(31 122 113 / 0.42);
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.18em;
+}
+
+.entry-content a:hover {
+	text-decoration-color: currentColor;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+	border-radius: var(--memoreba-raio-sm);
+	outline: 0.18rem solid var(--wp--preset--color--teal);
+	outline-offset: 0.2rem;
+	box-shadow: 0 0 0 0.25rem rgb(49 153 143 / 0.22);
+}
+
+/* ── Figura ─────────────────────────────────────────────────────────────────
+ * No Guia o diagrama vive dentro de uma moldura branca sobre o creme; sem ela
+ * o desenho encosta no fundo e perde a leitura.
+ */
+.wp-block-image {
+	margin-block: 3rem;
+}
+
+.wp-block-image img {
+	padding: clamp(0.75rem, 2vw, 1.5rem);
+	border: 1px solid var(--wp--preset--color--contrast-3);
+	border-radius: var(--memoreba-raio-lg);
+	background: var(--wp--preset--color--superficie);
+	box-shadow: var(--memoreba-sombra-sm);
+}
+
+.wp-block-image figcaption {
+	margin-top: 0.75rem;
+	color: var(--wp--preset--color--contrast-2);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--pequeno);
+	line-height: 1.5;
+	text-align: left;
+}
+
+/* A imagem destacada é arte de capa, não diagrama: sem moldura. */
+.wp-block-post-featured-image img {
+	padding: 0;
+	border: 0;
+	border-radius: var(--memoreba-raio-lg);
+	background: none;
+	box-shadow: var(--memoreba-sombra-sm);
+}
+
+/* ── Tabela ─────────────────────────────────────────────────────────────────*/
+
+.wp-block-table table {
+	border: 1px solid var(--wp--preset--color--contrast-3);
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: var(--memoreba-raio-md);
+	overflow: hidden;
+	background: var(--wp--preset--color--superficie);
+}
+
+.wp-block-table :where(th, td) {
+	padding: 0.75rem 0.9rem;
+	border-bottom: 1px solid #e9e4d8;
+	border-right: 0;
+	border-left: 0;
+	text-align: left;
+	vertical-align: top;
+}
+
+.wp-block-table th {
+	background: var(--wp--preset--color--superficie-suave);
+	color: var(--wp--preset--color--contrast);
+	font-weight: 700;
+}
+
+.wp-block-table tr:last-child td {
+	border-bottom: 0;
+}
+
+.wp-block-table figcaption {
+	margin-top: 0.5rem;
+	color: var(--wp--preset--color--contrast-2);
+	font-family: var(--wp--preset--font-family--leitura);
+	font-size: var(--wp--preset--font-size--pequeno);
+	text-align: left;
+}
+
+/* ── Citação e caixas editoriais ────────────────────────────────────────────
+ *
+ * A citação simples segue .guia-citacao: itálico com um fio à esquerda.
+ * As caixas (registradas em functions.php como variações de estilo) seguem
+ * .guia-bloco: fundo próprio, borda esquerda grossa e rótulo em versalete.
+ *
+ * O rótulo é o primeiro <strong> da caixa — é assim que o conversor do Guia
+ * escreve, e é o que permite manter a hierarquia sem inventar bloco novo.
+ */
+.wp-block-quote {
+	margin-block: 3rem;
+	padding: 0 0 0 2rem;
+	border: 0;
+	border-left: 0.16rem solid var(--wp--preset--color--contrast-3);
+	color: var(--wp--preset--color--contrast);
+	font-size: var(--wp--preset--font-size--grande);
+	font-style: italic;
+	line-height: 1.55;
+}
+
+.wp-block-quote > :last-child {
+	margin-bottom: 0;
+}
+
+/*
+ * Lista normal de propósito, não :where() — o seletor precisa de peso maior
+ * que o da citação simples acima, senão a caixa herda o itálico e o fio dela.
+ */
+.wp-block-quote.is-style-caixa-ideia,
+.wp-block-quote.is-style-caixa-evidencia,
+.wp-block-quote.is-style-caixa-atencao,
+.wp-block-quote.is-style-caixa-pratica {
+	--memoreba-caixa-cor: var(--wp--preset--color--laranja);
+	--memoreba-caixa-fundo: var(--memoreba-ideia-fundo);
+	margin-block: 2rem;
+	padding: 1.5rem;
+	border: 1px solid color-mix(in srgb, var(--memoreba-caixa-cor) 22%, var(--wp--preset--color--contrast-3));
+	border-left: 0.25rem solid var(--memoreba-caixa-cor);
+	border-radius: var(--memoreba-raio-md);
+	background: var(--memoreba-caixa-fundo);
+	font-size: var(--wp--preset--font-size--medio);
+	font-style: normal;
+}
+
+.wp-block-quote.is-style-caixa-evidencia {
+	--memoreba-caixa-cor: var(--wp--preset--color--teal);
+	--memoreba-caixa-fundo: var(--memoreba-evidencia-fundo);
+}
+
+.wp-block-quote.is-style-caixa-atencao {
+	--memoreba-caixa-cor: var(--wp--preset--color--perigo);
+	--memoreba-caixa-fundo: var(--memoreba-atencao-fundo);
+}
+
+.wp-block-quote.is-style-caixa-pratica {
+	--memoreba-caixa-cor: var(--wp--preset--color--sucesso);
+	--memoreba-caixa-fundo: var(--memoreba-pratica-fundo);
+}
+
+[class*="is-style-caixa-"] > p:first-child > strong:only-child {
+	display: block;
+	margin-bottom: 0.25rem;
+	color: var(--memoreba-caixa-cor);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+}
+
+/* ── Chapéu de capítulo ─────────────────────────────────────────────────────
+ * O parágrafo de abertura das páginas do Guia, com o fio curto à esquerda que
+ * o Guia usa em .guia-sobretitulo.
+ */
+.entry-content .chapeu {
+	max-width: 58ch;
+	margin-bottom: 2rem;
+	padding-bottom: 2rem;
+	border-bottom: 1px solid var(--wp--preset--color--contrast-3);
+	color: var(--wp--preset--color--contrast-2);
+	font-size: var(--wp--preset--font-size--grande);
+	font-style: normal;
+	line-height: 1.55;
+}
+
+/* ── Editorias ──────────────────────────────────────────────────────────────
+ *
+ * As cinco editorias foram remapeadas para dentro da paleta do produto: em vez
+ * de cinco cores próprias, cada uma recebe um token que já existe no design
+ * system. A cor continua dizendo do que o post trata, sem abrir uma segunda
+ * paleta paralela à do Memoreba.
+ *
+ * As classes vêm do próprio WordPress (get_post_class), tanto no <body> de um
+ * post quanto no item de uma listagem — não há nada a marcar à mão.
+ */
+:root {
+	--memoreba-editoria: var(--wp--preset--color--contrast-2);
+}
+
+.category-metodo {
+	--memoreba-editoria: var(--wp--preset--color--petroleo);
+}
+
+.category-memoria {
+	--memoreba-editoria: var(--wp--preset--color--teal);
+}
+
+.category-edital {
+	--memoreba-editoria: var(--wp--preset--color--laranja);
+}
+
+.category-rotina {
+	--memoreba-editoria: var(--wp--preset--color--sucesso);
+}
+
+.category-bastidores {
+	--memoreba-editoria: var(--wp--preset--color--atencao);
+}
+
+.wp-block-post-terms a {
+	color: var(--memoreba-editoria);
+	text-decoration: none;
+}
+
+.wp-block-post-terms a:hover {
+	color: var(--memoreba-editoria);
+	text-decoration: underline;
 }
 
 /* ── Navegação lateral do Guia ──────────────────────────────────────────────
  *
- * Usada pelo template templates/pagina-guia.html. A lista em si é o bloco
- * core/page-list, que o WordPress monta a partir da hierarquia de páginas —
- * aqui só se ajusta a aparência, que o bloco não expõe em theme.json.
+ * Usada pelo template templates/pagina-guia.html. A lista é o bloco
+ * core/page-list, montado pelo WordPress a partir da hierarquia de páginas;
+ * aqui só se ajusta a aparência, seguindo .guia-sumario do Guia.
  *
- * O bloco marca a página aberta com .current-menu-item; é o que permite ao
+ * O bloco marca a página aberta com .current-menu-item — é o que permite ao
  * leitor saber onde está sem contar capítulos.
  */
 .guia-lateral__rotulo {
 	margin-bottom: 0.75rem;
 	color: var(--wp--preset--color--contrast-2);
+	font-family: var(--wp--preset--font-family--display);
 	font-size: 0.75rem;
-	font-weight: 600;
-	letter-spacing: 0.12em;
+	font-weight: 800;
+	letter-spacing: 0.1em;
 	text-transform: uppercase;
 }
 
@@ -79,34 +365,57 @@ Text Domain: memoreba-blog
 
 .guia-lateral__lista,
 .guia-lateral__lista ul {
+	margin: 0;
+	padding: 0;
 	list-style: none;
-	padding-left: 0;
 }
 
-/* Recuo dos capítulos sob a parte a que pertencem. */
-.guia-lateral__lista ul {
-	padding-left: 0.9rem;
-}
-
-.guia-lateral__lista li {
-	margin-block: 0.45rem;
-	font-size: 0.875rem;
-	line-height: 1.35;
+.guia-lateral__lista li + li {
+	margin-top: 0.25rem;
 }
 
 .guia-lateral__lista a {
+	display: block;
+	padding: 0.52rem 0.7rem;
+	border-left: 0.16rem solid transparent;
+	border-radius: 0 var(--memoreba-raio-sm) var(--memoreba-raio-sm) 0;
 	color: var(--wp--preset--color--contrast-2);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--pequeno);
+	font-weight: 500;
+	line-height: 1.35;
 	text-decoration: none;
+	transition:
+		background-color var(--memoreba-transicao),
+		border-color var(--memoreba-transicao),
+		color var(--memoreba-transicao);
 }
 
 .guia-lateral__lista a:hover {
+	background: var(--wp--preset--color--superficie-suave);
 	color: var(--wp--preset--color--contrast);
-	text-decoration: underline;
 }
 
-.guia-lateral__lista .current-menu-item > a {
+.guia-lateral__lista .current-menu-item > a,
+.guia-lateral__lista .current-menu-ancestor > a {
+	border-left-color: var(--wp--preset--color--laranja);
+	background: var(--memoreba-pilula);
 	color: var(--wp--preset--color--contrast);
-	font-weight: 600;
+	font-weight: 700;
+}
+
+/* As partes são rótulo de seção, não item de leitura. */
+.guia-lateral__lista > .wp-block-pages-list__item > a {
+	color: var(--wp--preset--color--contrast);
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.055em;
+	text-transform: uppercase;
+}
+
+.guia-lateral__lista ul {
+	margin-top: 0.25rem;
+	padding-left: 0.5rem;
 }
 
 @media (min-width: 782px) {
@@ -116,12 +425,12 @@ Text Domain: memoreba-blog
 	 */
 	.guia-colunas .guia-lateral {
 		position: sticky;
-		top: 2rem;
+		top: 6rem;
 		align-self: flex-start;
-		max-height: calc(100vh - 4rem);
+		max-height: calc(100vh - 8rem);
 		overflow-y: auto;
-		border-right: 1px solid var(--wp--preset--color--contrast-3);
-		padding-right: 1.5rem;
+		scrollbar-width: thin;
+		scrollbar-color: var(--wp--preset--color--contrast-3) transparent;
 	}
 }
 
@@ -133,12 +442,24 @@ Text Domain: memoreba-blog
 	 */
 	.guia-colunas .guia-lateral {
 		margin-bottom: 2rem;
-		border-bottom: 1px solid var(--wp--preset--color--contrast-3);
-		padding-bottom: 1.5rem;
+		border: 1px solid var(--wp--preset--color--contrast-3);
+		border-radius: var(--memoreba-raio-md);
+		padding: 1rem;
+		background: var(--wp--preset--color--superficie);
 	}
 
 	.guia-lateral__lista {
 		max-height: 40vh;
 		overflow-y: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
 	}
 }
