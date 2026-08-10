@@ -5,6 +5,10 @@
  * Escrito à mão com zlib porque o repositório não tem dependências — um tema
  * de blocos não deveria precisar de node_modules só para uma imagem estática.
  *
+ * As cores vêm de theme.json (paleta do design system do produto Memoreba) —
+ * não da identidade grafite antiga do "De Cabeça!", que este tema já não usa
+ * desde a migração para o design system (ver style.css).
+ *
  * Uso: node gerar-screenshot.mjs
  */
 
@@ -14,41 +18,79 @@ import { writeFileSync } from 'node:fs';
 const LARGURA = 1200;
 const ALTURA = 900;
 
-// Identidade do blog "De Cabeça!": base grafite e branco, cor só nas editorias.
+// Paleta de theme.json — base creme, texto grafite-marrom, acentos do
+// sistema de caixas editoriais (evidência/prática/atenção/perigo + laranja).
 const CORES = {
-	fundo: [0xff, 0xff, 0xff],
-	grafite: [0x23, 0x2b, 0x2b],
-	claro: [0x6b, 0x72, 0x72],
-	linha: [0xe6, 0xe8, 0xe8],
-	editorias: [
-		[0x20, 0xa8, 0xe0], // Método
-		[0x84, 0x48, 0x90], // Memória
-		[0xe4, 0x6c, 0x30], // Edital
-		[0x00, 0x9c, 0x9c], // Rotina
-		[0xfc, 0xb4, 0x18], // Bastidores
+	base: [0xfa, 0xf7, 0xf0],
+	superficie: [0xff, 0xff, 0xff],
+	contrast: [0x46, 0x3f, 0x34],
+	contrast2: [0x5c, 0x54, 0x48],
+	contrast3: [0xde, 0xd7, 0xc8],
+	acentos: [
+		[0xb0, 0x4e, 0x2e], // Laranja
+		[0x1f, 0x7a, 0x71], // Teal
+		[0x23, 0x3c, 0x50], // Petróleo
+		[0x24, 0x7a, 0x55], // Sucesso
+		[0x9a, 0x67, 0x20], // Atenção
 	],
 };
 
-/** Retorna a cor do pixel — grafite no topo, e a régua de editorias no rodapé. */
-function corDoPixel(x, y) {
-	if (y < 120) return CORES.grafite;
+const HEADER_ALTURA = 96;
+const CARTAO = { x0: 140, y0: 150, x1: 1060, y1: 620 };
+const CHIP = { largura: 180, altura: 60, folga: 32, y0: 780, contagem: 5 };
+const CHIP_INICIO_X = (LARGURA - (CHIP.largura * CHIP.contagem + CHIP.folga * (CHIP.contagem - 1))) / 2;
 
-	// Rodapé: as cinco editorias em faixas iguais, que é o sistema da marca.
-	if (y > ALTURA - 60) {
-		const faixa = Math.min(
-			CORES.editorias.length - 1,
-			Math.floor((x / LARGURA) * CORES.editorias.length)
-		);
-		return CORES.editorias[faixa];
+function dentro(x, y, caixa) {
+	return x >= caixa.x0 && x < caixa.x1 && y >= caixa.y0 && y < caixa.y1;
+}
+
+function bordaDoCartao(x, y) {
+	const espessura = 1;
+	const noXBorda = x < CARTAO.x0 + espessura || x >= CARTAO.x1 - espessura;
+	const noYBorda = y < CARTAO.y0 + espessura || y >= CARTAO.y1 - espessura;
+	return dentro(x, y, CARTAO) && (noXBorda || noYBorda);
+}
+
+function chipDoRodape(x, y) {
+	if (y < CHIP.y0 || y >= CHIP.y0 + CHIP.altura) return null;
+	for (let i = 0; i < CHIP.contagem; i += 1) {
+		const inicio = CHIP_INICIO_X + i * (CHIP.largura + CHIP.folga);
+		if (x >= inicio && x < inicio + CHIP.largura) return CORES.acentos[i];
+	}
+	return null;
+}
+
+/** Retorna a cor do pixel — cabeçalho creme, cartão de artigo, chips de editoria no rodapé. */
+function corDoPixel(x, y) {
+	// Cabeçalho: creme, com fio de borda no fim e a marca (mascote + palavra)
+	// à esquerda — dois blocos escuros simulando o lockup do tema.
+	if (y < HEADER_ALTURA) {
+		if (y >= HEADER_ALTURA - 2) return CORES.contrast3;
+		if (x >= 40 && x < 90 && y >= 24 && y < 72) return CORES.contrast;
+		if (x >= 104 && x < 264 && y >= 40 && y < 56) return CORES.contrast2;
+		return CORES.superficie;
 	}
 
-	// Título em grafite e linhas de texto sugeridas geometricamente.
-	if (y > 260 && y < 320 && x > 140 && x < 660) return CORES.grafite;
-	if (y > 350 && y < 352 && x > 140 && x < 1060) return CORES.linha;
-	if (y > 400 && y < 418 && x > 140 && x < 900) return CORES.claro;
-	if (y > 448 && y < 466 && x > 140 && x < 820) return CORES.claro;
-	if (y > 496 && y < 514 && x > 140 && x < 620) return CORES.claro;
-	return CORES.fundo;
+	if (bordaDoCartao(x, y)) return CORES.contrast3;
+
+	if (dentro(x, y, CARTAO)) {
+		// Título do cartão.
+		if (x > 180 && x < 820 && y > 200 && y < 256) return CORES.contrast;
+		// Fio abaixo do título.
+		if (x > 180 && x < 1020 && y > 280 && y < 282) return CORES.contrast3;
+		// Linhas de texto sugeridas geometricamente.
+		if (x > 180 && x < 980 && y > 320 && y < 338) return CORES.contrast2;
+		if (x > 180 && x < 900 && y > 360 && y < 378) return CORES.contrast2;
+		if (x > 180 && x < 760 && y > 400 && y < 418) return CORES.contrast2;
+		// Selo de categoria.
+		if (x > 180 && x < 340 && y > 460 && y < 500) return CORES.acentos[1];
+		return CORES.superficie;
+	}
+
+	const chip = chipDoRodape(x, y);
+	if (chip) return chip;
+
+	return CORES.base;
 }
 
 function montarPixels() {
